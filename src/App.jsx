@@ -150,13 +150,31 @@ export default function App(){
           >
             <Layer>
               {pdfImage ? (
-                <KonvaImage image={pdfImage} width={stageSize.width} height={stageSize.height} />
-              ) : (
-                <Group>
-                  <Rect x={0} y={0} width={stageSize.width} height={stageSize.height} fill={'#0B1220'} />
-                  <KonvaText text="Importez un PDF du plan pour démarrer" x={16} y={16} fill="#9CA3AF" fontSize={14} />
-                </Group>
-              )}
+  (() => {
+    const imgW = pdfImage.width;
+    const imgH = pdfImage.height;
+    const scale = Math.min(stageSize.width / imgW, stageSize.height / imgH);
+    const drawW = imgW * scale;
+    const drawH = imgH * scale;
+    const offsetX = (stageSize.width - drawW) / 2;
+    const offsetY = (stageSize.height - drawH) / 2;
+    return (
+      <Group x={offsetX} y={offsetY}>
+        <KonvaImage
+          image={pdfImage}
+          width={drawW}
+          height={drawH}
+          listening={false}
+        />
+      </Group>
+    );
+  })()
+) : (
+  <Group>
+    <Rect x={0} y={0} width={stageSize.width} height={stageSize.height} fill={'#0B1220'} />
+    <KonvaText text="Importez un PDF du plan pour démarrer" x={16} y={16} fill="#9CA3AF" fontSize={14} />
+  </Group>
+)}
             </Layer>
             <Layer>
               {booths.map(b => (
