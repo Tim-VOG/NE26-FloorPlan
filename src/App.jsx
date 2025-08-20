@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Stage, Layer, Rect, Line, Group, Text as KonvaText, Image as KonvaImage } from 'react-konva'
 import * as pdfjsLib from 'pdfjs-dist'
+import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.mjs?url'
 import { motion } from 'framer-motion'
 
 // pdf.js worker (CDN)
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.worker.min.js'
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker
 
 const STATUS = {
   available: { key: 'available', label: 'Disponible', color: '#10B981' },
